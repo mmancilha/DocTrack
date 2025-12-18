@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAuth } from "@/lib/auth";
-import { DocTrackLogo } from "@/assets/doctrack-logo";
+import { DocTrackLogoWithIcon } from "@/assets/doctrack-logo";
 
 export default function Login() {
   const { t } = useTranslation("auth");
@@ -120,10 +120,10 @@ export default function Login() {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
-            <DocTrackLogo
+            <DocTrackLogoWithIcon
               className="text-foreground"
-              width={220}
-              height={110}
+              width={300}
+              height={50}
             />
           </motion.div>
           <p className="text-muted-foreground text-sm -mt-2 font-medium">
