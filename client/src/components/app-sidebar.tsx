@@ -40,6 +40,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SidebarUserMenu } from "@/components/sidebar-user-menu";
 import { useAuth } from "@/lib/auth";
+import { useCategoryLabels } from "@/lib/constants";
 import type { Document } from "@shared/schema";
 
 export function AppSidebar() {
@@ -48,6 +49,7 @@ export function AppSidebar() {
   const { t: tAdmin } = useTranslation("admin");
   const [location] = useLocation();
   const { user, canEdit } = useAuth();
+  const categoryLabels = useCategoryLabels();
 
   // Fetch documents for client grouping
   const { data: documents = [] } = useQuery<Document[]>({
@@ -174,21 +176,24 @@ export function AppSidebar() {
                         </CollapsibleTrigger>
                         <CollapsibleContent>
                           <SidebarMenuSub>
-                            {clientDocs.map((doc, index) => (
-                              <SidebarMenuSubItem key={doc.id}>
-                                <SidebarMenuSubButton
-                                  asChild
-                                  isActive={location === `/document/${doc.id}`}
-                                >
-                                  <Link href={`/document/${doc.id}`}>
-                                    <span className="font-mono text-xs text-muted-foreground mr-2">
-                                      {getDocumentId(client, index)}
-                                    </span>
-                                    <span>{doc.title}</span>
-                                  </Link>
-                                </SidebarMenuSubButton>
-                              </SidebarMenuSubItem>
-                            ))}
+                            {clientDocs.map((doc, index) => {
+                              const categoryLabel = categoryLabels[doc.category as keyof typeof categoryLabels]?.singular || doc.category;
+                              return (
+                                <SidebarMenuSubItem key={doc.id}>
+                                  <SidebarMenuSubButton
+                                    asChild
+                                    isActive={location === `/document/${doc.id}`}
+                                  >
+                                    <Link href={`/document/${doc.id}`}>
+                                      <span className="font-mono text-xs text-muted-foreground mr-2">
+                                        {getDocumentId(client, index)}
+                                      </span>
+                                      <span>{categoryLabel}</span>
+                                    </Link>
+                                  </SidebarMenuSubButton>
+                                </SidebarMenuSubItem>
+                              );
+                            })}
                           </SidebarMenuSub>
                         </CollapsibleContent>
                       </SidebarMenuItem>
