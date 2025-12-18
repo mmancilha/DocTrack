@@ -1,33 +1,184 @@
 # DocTrack
 
-Sistema de Gerenciamento de Documentos
+<div align="center">
 
-## Funcionalidades
+![DocTrack Logo](https://img.shields.io/badge/DocTrack-Document%20Management-7C3AED?style=for-the-badge&logo=files&logoColor=white)
 
-- 📄 Criação e edição de documentos com editor rich text
-- 👥 Gerenciamento de usuários e permissões
-- 🌐 Suporte a múltiplos idiomas (PT, EN, FR)
-- 📂 Organização por categorias e clientes
-- 📊 Logs de auditoria
-- 💬 Sistema de comentários
-- 📜 Histórico de versões
-- 📤 Exportação para PDF
+**A modern, enterprise-grade document management system**
 
-## Tecnologias
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-- **Frontend:** React, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend:** Node.js, Express, Drizzle ORM
-- **Banco de Dados:** PostgreSQL (Neon)
-- **Autenticação:** Passport.js
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [Screenshots](#-screenshots) • [Author](#-author)
 
-## Instalação
+</div>
 
+---
+
+## 📋 Overview
+
+DocTrack is a comprehensive document management solution designed for businesses that need to organize, track, and collaborate on documentation. Built with modern technologies and a focus on user experience, it provides a seamless workflow for document creation, versioning, and team collaboration.
+
+## ✨ Features
+
+### Document Management
+- 📝 **Rich Text Editor** - Full-featured WYSIWYG editor with formatting tools
+- 📂 **Smart Organization** - Categorize documents by type and client
+- 🔄 **Version History** - Track all changes with complete revision history
+- 🔍 **Version Comparison** - Visual diff between document versions
+
+### Collaboration
+- 💬 **Comments System** - Add contextual comments to documents
+- 👥 **User Management** - Role-based access control (Admin, Editor, Reader)
+- 📊 **Audit Logs** - Complete activity tracking for compliance
+
+### User Experience
+- 🌐 **Multi-language Support** - Available in English, Portuguese, and French
+- 🎨 **Modern UI** - Clean, responsive interface built with shadcn/ui
+- ⌨️ **Keyboard Shortcuts** - Command palette for power users (Ctrl+K)
+- 📤 **PDF Export** - Export documents to PDF format
+
+### Enterprise Ready
+- 🔐 **Secure Authentication** - Session-based auth with Passport.js
+- 🏢 **Client Management** - Organize documents by client/company
+- 📈 **Dashboard Analytics** - Overview of document statistics
+
+## 🛠 Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| React 18 | UI Framework |
+| TypeScript | Type Safety |
+| Tailwind CSS | Styling |
+| shadcn/ui | Component Library |
+| TipTap | Rich Text Editor |
+| Framer Motion | Animations |
+| React Query | Data Fetching |
+| i18next | Internationalization |
+
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| Node.js | Runtime |
+| Express | Web Framework |
+| Drizzle ORM | Database ORM |
+| PostgreSQL | Database |
+| Passport.js | Authentication |
+| bcrypt | Password Hashing |
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- PostgreSQL database (or [Neon](https://neon.tech) for serverless)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/mmancilha/doctrack.git
+cd doctrack
+```
+
+2. **Install dependencies**
 ```bash
 npm install
+```
+
+3. **Configure environment**
+```bash
+# Create .env file with:
+DATABASE_URL=your_postgresql_connection_string
+SESSION_SECRET=your_session_secret
+```
+
+4. **Initialize database**
+```bash
+npm run db:push
+npm run db:seed
+```
+
+5. **Start development server**
+```bash
 npm run dev
 ```
 
-## Licença
+The application will be available at `http://localhost:5001`
 
-MIT
+### Default Users
 
+| Username | Password | Role |
+|----------|----------|------|
+| admin | admin123 | Administrator |
+| editor | editor123 | Editor |
+| reader | reader123 | Reader |
+
+## 📸 Screenshots
+
+<details>
+<summary>Click to view screenshots</summary>
+
+### Dashboard
+Modern dashboard with document statistics and recent activity.
+
+### Document Editor
+Full-featured rich text editor with formatting toolbar.
+
+### Version History
+Track and compare document versions over time.
+
+### Multi-language Support
+Switch between English, Portuguese, and French.
+
+</details>
+
+## 📁 Project Structure
+
+```
+doctrack/
+├── client/                 # Frontend React application
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Page components
+│   │   ├── lib/            # Utilities and helpers
+│   │   ├── locales/        # i18n translation files
+│   │   └── hooks/          # Custom React hooks
+├── server/                 # Backend Express application
+│   ├── routes.ts           # API endpoints
+│   ├── auth.ts             # Authentication logic
+│   ├── storage.ts          # Data access layer
+│   └── db.ts               # Database connection
+├── shared/                 # Shared types and schemas
+│   └── schema.ts           # Drizzle ORM schemas
+└── package.json
+```
+
+## 👤 Author
+
+<div align="center">
+
+**Maycon Mancilha**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mayconmancilha/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mmancilha)
+
+</div>
+
+## 📄 License
+
+Copyright © 2024 Maycon Mancilha. All rights reserved.
+
+This software is proprietary and confidential. Unauthorized copying, modification, distribution, or use of this software, via any medium, is strictly prohibited without express written permission from the author.
+
+---
+
+<div align="center">
+
+Made with ❤️ by [Maycon Mancilha](https://www.linkedin.com/in/mayconmancilha/)
+
+</div>
