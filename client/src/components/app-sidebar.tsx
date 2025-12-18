@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import {
-  FileText,
   Home,
   Plus,
   Clock,
@@ -16,6 +15,7 @@ import {
   ChevronRight,
   Building2,
 } from "lucide-react";
+import { DocTrackLogoCompact } from "@/assets/doctrack-logo";
 import {
   Sidebar,
   SidebarContent,
@@ -92,20 +92,15 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-3">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary"
-          >
-            <FileText className="h-5 w-5 text-primary-foreground" />
-          </motion.div>
-          <div className="flex flex-col">
-            <span className="text-lg font-semibold tracking-tight">{t("appName")}</span>
-            <span className="text-xs text-muted-foreground">{t("appDescription")}</span>
-          </div>
-        </div>
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className="flex flex-col"
+        >
+          <DocTrackLogoCompact className="text-foreground" width={120} height={40} />
+          <span className="text-xs text-muted-foreground mt-1">{t("appDescription")}</span>
+        </motion.div>
       </SidebarHeader>
 
       <SidebarContent className="px-2">
