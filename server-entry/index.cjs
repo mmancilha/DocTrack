@@ -48,14 +48,75 @@ async function getApp() {
 // A Vercel espera uma função que recebe (req, res)
 module.exports = async (req, res) => {
   try {
-    // Quando a Vercel faz rewrite, ela passa o path original em req.url
-    // Mas precisamos garantir que o Express receba o path correto
-    // A Vercel preserva o path original automaticamente, então não precisamos fazer nada
+    // CRÍTICO: Quando a Vercel faz rewrite, precisamos preservar o path original
+    // O req.url pode estar como /server-entry/index.cjs, mas precisamos do path original /api/auth/login
+    // A Vercel passa o path original em req.headers['x-vercel-path'] ou podemos usar req.url diretamente
+    // Mas quando fazemos rewrite, o req.url pode estar errado
+    
+    // Tentar obter o path original de várias formas
+    const originalPath = req.headers['x-vercel-path'] || 
+                        req.headers['x-invoke-path'] || 
+                        req.url;
+    
+    // Se o path contém /server-entry/index.cjs, precisamos extrair o path real do rewrite
+    // O rewrite é /api/:path* -> /server-entry/index.cjs
+    // Então se req.url é /server-entry/index.cjs, o path original deve ser /api/...
+    // Mas na verdade, quando a Vercel faz rewrite, ela pode preservar em req.url
+    // Vamos verificar e corrigir se necessário
+    
+    let pathToUse = originalPath;
+    
+    // Se o path contém server-entry, significa que o rewrite aconteceu mas não preservou
+    // Nesse caso, precisamos usar o header ou reconstruir
+    if (pathToUse && pathToUse.includes('/server-entry')) {
+      // Tentar obter do header x-vercel-rewrite-path ou similar
+      pathToUse = req.headers['x-vercel-rewrite-path'] || 
+                  req.headers['x-invoke-path'] ||
+                  req.originalUrl ||
+                  originalPath;
+    }
+    
+    // Se ainda não temos o path correto, tentar usar req.url diretamente
+    // A Vercel normalmente preserva o path original em req.url quando faz rewrite
+    if (!pathToUse || pathToUse.includes('/server-entry')) {
+      // Última tentativa: usar req.url que pode já ter o path correto
+      pathToUse = req.url;
+    }
+    
+    // Garantir que o path começa com /api
+    if (pathToUse && !pathToUse.startsWith('/api') && !pathToUse.startsWith('/server-entry')) {
+      // Se não começa com /api, pode ser que o rewrite não preservou
+      // Nesse caso, vamos assumir que req.url já tem o path correto
+      pathToUse = req.url;
+    }
+    
+    // Se ainda está errado, tentar reconstruir do header x-vercel-path
+    if (pathToUse && pathToUse.includes('/server-entry')) {
+      // Extrair o path do rewrite pattern /api/:path*
+      // Se temos x-vercel-path, usar ele
+      const vercelPath = req.headers['x-vercel-path'];
+      if (vercelPath) {
+        pathToUse = vercelPath;
+      } else {
+        // Se não temos, manter req.url que pode já estar correto
+        pathToUse = req.url;
+      }
+    }
+    
+    // Atualizar req.url e req.originalUrl para o Express
+    if (pathToUse && pathToUse !== req.url) {
+      req.url = pathToUse;
+      req.originalUrl = pathToUse;
+    }
     
     console.log(`[API Handler] ${req.method} ${req.url}`);
     console.log(`[API Handler] Original URL: ${req.originalUrl || req.url}`);
     console.log(`[API Handler] Path: ${req.path}`);
-    console.log(`[API Handler] Query: ${JSON.stringify(req.query)}`);
+    console.log(`[API Handler] Headers:`, JSON.stringify({
+      'x-vercel-path': req.headers['x-vercel-path'],
+      'x-invoke-path': req.headers['x-invoke-path'],
+      'x-vercel-rewrite-path': req.headers['x-vercel-rewrite-path']
+    }));
     
     const initializedApp = await getApp();
     // Chama o app Express diretamente - ele vai lidar com req e res
