@@ -95,12 +95,10 @@ async function initializeApp() {
   return app;
 }
 
-// Para Vercel (serverless), inicializa o app e exporta
+// Para Vercel (serverless), não inicializamos aqui
+// A inicialização será feita no api/index.js quando necessário
 // Para desenvolvimento/produção tradicional, inicia o servidor
-if (process.env.VERCEL) {
-  // Na Vercel, inicializamos o app mas não iniciamos o servidor HTTP
-  initializeApp().catch(console.error);
-} else {
+if (!process.env.VERCEL) {
   // Comportamento normal para desenvolvimento/produção tradicional
   (async () => {
     await initializeApp();
@@ -112,7 +110,6 @@ if (process.env.VERCEL) {
   })();
 }
 
-// Exporta o app Express para uso em serverless (Vercel)
-// A Vercel vai chamar initializeApp() quando necessário
+// Exporta o app Express e a função de inicialização para uso em serverless (Vercel)
 export default app;
 export { initializeApp };
