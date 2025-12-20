@@ -46,9 +46,10 @@ DocTrack is a comprehensive document management solution designed for businesses
 
 ### Enterprise Ready
 
-- 🔐 **Secure Authentication** - Session-based auth with Passport.js
+- 🔐 **Secure Authentication** - JWT-based session management
 - 🏢 **Client Management** - Organize documents by client/company
 - 📈 **Dashboard Analytics** - Overview of document statistics
+- 🚀 **Next.js Optimized** - Built with Next.js App Router for optimal performance
 
 ## 🛠 Tech Stack
 
@@ -76,11 +77,11 @@ DocTrack is a comprehensive document management solution designed for businesses
 
 | Technology  | Purpose          |
 | ----------- | ---------------- |
+| Next.js     | Full-stack Framework |
 | Node.js     | Runtime          |
-| Express     | Web Framework    |
 | Drizzle ORM | Database ORM     |
 | PostgreSQL  | Database         |
-| Passport.js | Authentication   |
+| JWT (jose)  | Authentication   |
 | bcrypt      | Password Hashing |
 
 </td>
@@ -105,20 +106,23 @@ Full-featured rich text editor with client selection and category management.
 
 ```
 doctrack/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── lib/            # Utilities and helpers
-│   │   ├── locales/        # i18n translation files
-│   │   └── hooks/          # Custom React hooks
-├── server/                 # Backend Express application
-│   ├── routes.ts           # API endpoints
-│   ├── auth.ts             # Authentication logic
+├── app/                    # Next.js App Router
+│   ├── (auth)/             # Public routes (login)
+│   ├── (protected)/        # Protected routes (dashboard, documents, etc.)
+│   └── api/                # API Routes
+│       ├── auth/           # Authentication endpoints
+│       ├── documents/      # Document CRUD endpoints
+│       └── users/          # User management endpoints
+├── components/             # Reusable UI components
+│   └── ui/                 # shadcn/ui components
+├── lib/                    # Utilities and helpers
 │   ├── storage.ts          # Data access layer
-│   └── db.ts               # Database connection
+│   ├── db.ts               # Database connection
+│   ├── session.ts          # JWT session management
+│   └── auth-helpers.ts     # Authentication helpers
 ├── shared/                 # Shared types and schemas
 │   └── schema.ts           # Drizzle ORM schemas
+├── locales/                # i18n translation files
 └── package.json
 ```
 
