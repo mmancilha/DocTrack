@@ -29,7 +29,11 @@ export default function CategoryPage({
   const { t } = useTranslation("documents");
   const { t: tCommon } = useTranslation("common");
   const { t: tDashboard } = useTranslation("dashboard");
-  const resolvedParams = use(Promise.resolve(params));
+  // Handle both Promise and plain object params
+  const isPromise = params && typeof params === "object" && "then" in params;
+  const resolvedParams = isPromise 
+    ? use(params as Promise<{ category: string }>) 
+    : (params as { category: string });
   const category = resolvedParams.category;
   const router = useRouter();
   const { canEdit, canDelete } = useAuth();

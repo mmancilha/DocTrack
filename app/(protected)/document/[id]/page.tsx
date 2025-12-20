@@ -118,18 +118,9 @@ export default function DocumentEditor({
     "procedure",
   ];
 
-  // Get category from URL query string for new documents
-  const getInitialCategory = () => {
-    const urlCategory = searchParams.get("category");
-    if (urlCategory && validCategories.includes(urlCategory)) {
-      return urlCategory;
-    }
-    return ""; // Start empty for new documents
-  };
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [category, setCategory] = useState<string>(getInitialCategory());
+  const [category, setCategory] = useState<string>("");
   const [status, setStatus] = useState<string>("draft");
   const [company, setCompany] = useState<string>("");
   const [isSaving, setIsSaving] = useState(false);
@@ -277,6 +268,20 @@ export default function DocumentEditor({
         id: cat.id,
       })),
   ], [documentCategories, customCategoriesData]);
+
+  // Initialize category from URL searchParams for new documents
+  useEffect(() => {
+    if (isNewDocument && !category) {
+      try {
+        const urlCategory = searchParams.get("category");
+        if (urlCategory && validCategories.includes(urlCategory)) {
+          setCategory(urlCategory);
+        }
+      } catch (error) {
+        // searchParams might not be ready yet
+      }
+    }
+  }, [isNewDocument, searchParams, category, validCategories]);
 
   useEffect(() => {
     if (document) {
