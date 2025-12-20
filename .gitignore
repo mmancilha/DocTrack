@@ -5,7 +5,9 @@ package-lock.json
 # Build outputs
 dist/
 build/
+.next/
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 
 # Environment variables (CRITICAL - never commit)
 .env
@@ -14,6 +16,7 @@ build/
 .env.development
 .env.production
 .env.test
+!.env.example
 
 # Database files
 *.db
@@ -41,6 +44,7 @@ Desktop.ini
 # IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
@@ -57,7 +61,6 @@ Desktop.ini
 # Local development
 .local/
 attached_assets/
-server/public/
 
 # Backup files
 *.backup.*
@@ -65,16 +68,12 @@ server/public/
 *.bak
 *~
 
-# Documentation (keep only README.md)
-*.md
-!README.md
-
 # Replit files (removed)
 .replit
 replit.md
 
-# Vite
-vite.config.ts.*
+# Temporary files
+temp_*.tsx
 *.tar.gz
 
 # Secrets and credentials
