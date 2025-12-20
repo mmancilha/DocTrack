@@ -107,7 +107,7 @@ Modern dashboard with document statistics and recent activity.
 
 Full-featured rich text editor with client selection and category management.
 
-![Document Editor](docs/screenshots/editoDocument.png)
+![Document Editor](docs/screenshots/edit-document.png)
 
 ## 📁 Project Structure
 
