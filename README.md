@@ -81,7 +81,7 @@ DocTrack is a comprehensive document management solution designed for businesses
 | Next.js     | API Routes       |
 | Node.js     | Runtime          |
 | Drizzle ORM | Database ORM     |
-| PostgreSQL  | Database         |
+| PostgreSQL  | Database (Neon.tech) |
 | JWT (jose)  | Authentication   |
 | bcrypt      | Password Hashing |
 
@@ -138,12 +138,71 @@ doctrack/
 
 ## 📝 Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (runs on http://localhost:3000)
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run check` - Run TypeScript type checking
-- `npm run db:push` - Push database schema changes
+- `npm run db:push` - Push database schema changes to Neon.tech
 - `npm run seed` - Seed database with test data
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 20+ 
+- npm or yarn
+- Neon.tech account (for PostgreSQL database)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mmancilha/DocTrack.git
+   cd DocTrack
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   
+   Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL=postgresql://user:password@host:port/database
+   SESSION_SECRET=your-secret-key-minimum-32-characters-long
+   NODE_ENV=development
+   ```
+   
+   **Important**: 
+   - Get your `DATABASE_URL` from your Neon.tech project dashboard
+   - `SESSION_SECRET` must be at least 32 characters long for security
+
+4. **Set up the database**
+   ```bash
+   npm run db:push
+   ```
+
+5. **Seed the database (optional)**
+   ```bash
+   npm run seed
+   ```
+
+6. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at [http://localhost:3000](http://localhost:3000)
+
+### Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | PostgreSQL connection string from Neon.tech | Yes |
+| `SESSION_SECRET` | Secret key for JWT sessions (min 32 chars) | Yes |
+| `NODE_ENV` | Environment mode (`development` or `production`) | No |
 
 ## 👤 Author
 
