@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Lock, User, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Lock, User, AlertCircle, Eye, EyeOff, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { Input } from "@/components/ui/input";
@@ -143,8 +143,8 @@ export default function LoginPage() {
 
           <Card className="shadow-lg border-border/50">
             <CardHeader className="space-y-1">
-              <CardTitle className="text-xl">{t("login.title")}</CardTitle>
-              <CardDescription>{t("login.description")}</CardDescription>
+              <CardTitle className="text-xl">{mounted ? t("login.title") : "Sign in"}</CardTitle>
+              <CardDescription>{mounted ? t("login.description") : "Enter your credentials to access the system"}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
@@ -157,7 +157,7 @@ export default function LoginPage() {
                     <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-destructive">
-                        {t("login.error.title")}
+                        {mounted ? t("login.error.title") : "Sign in failed"}
                       </p>
                       <p className="text-sm text-destructive/80 mt-0.5">
                         {error}
@@ -167,7 +167,7 @@ export default function LoginPage() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="username">{t("login.username")}</Label>
+                  <Label htmlFor="username">{mounted ? t("login.username") : "Username"}</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -175,7 +175,7 @@ export default function LoginPage() {
                       ref={usernameRef}
                       data-testid="input-username"
                       type="text"
-                      placeholder={t("login.usernamePlaceholder")}
+                      placeholder={mounted ? t("login.usernamePlaceholder") : "Enter your username"}
                       className={`pl-10 ${
                         fieldErrors.username
                           ? "border-destructive focus-visible:ring-destructive"
@@ -198,7 +198,7 @@ export default function LoginPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">{t("login.password")}</Label>
+                  <Label htmlFor="password">{mounted ? t("login.password") : "Password"}</Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -206,7 +206,7 @@ export default function LoginPage() {
                       ref={passwordRef}
                       data-testid="input-password"
                       type={showPassword ? "text" : "password"}
-                      placeholder={t("login.passwordPlaceholder")}
+                      placeholder={mounted ? t("login.passwordPlaceholder") : "Enter your password"}
                       className={`pl-10 pr-10 ${
                         fieldErrors.password
                           ? "border-destructive focus-visible:ring-destructive"
@@ -249,13 +249,77 @@ export default function LoginPage() {
                   {isPending || isLoading ? (
                     <>
                       <Spinner className="h-4 w-4 mr-2" />
-                      {t("login.submitting")}
+                      {mounted ? t("login.submitting") : "Signing in..."}
                     </>
                   ) : (
-                    t("login.submit")
+                    mounted ? t("login.submit") : "Sign in"
                   )}
                 </Button>
               </form>
+
+              <div className="mt-6 pt-6 border-t border-border/50">
+                <p className="text-sm font-medium text-muted-foreground mb-3">
+                  {mounted ? t("login.credentials.title") : "Access credentials:"}
+                </p>
+                <div className="space-y-2.5 text-sm">
+                  <div className="p-2.5 rounded-md bg-muted/50">
+                    <p className="font-medium text-foreground mb-1">
+                      {mounted ? t("login.credentials.admin.title") : "Administrator"}
+                    </p>
+                    <p className="text-muted-foreground text-xs mb-1.5">
+                      {mounted ? t("login.credentials.admin.description") : "Full access to the system: create, edit and manage documents and users"}
+                    </p>
+                    <p className="font-mono text-xs">
+                      <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.userLabel") : "User:"}
+                      </span> admin | <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.passwordLabel") : "Password:"}
+                      </span> admin123
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-md bg-muted/50">
+                    <p className="font-medium text-foreground mb-1">
+                      {mounted ? t("login.credentials.editor.title") : "Editor"}
+                    </p>
+                    <p className="text-muted-foreground text-xs mb-1.5">
+                      {mounted ? t("login.credentials.editor.description") : "Can create and edit documents, but does not manage users"}
+                    </p>
+                    <p className="font-mono text-xs">
+                      <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.userLabel") : "User:"}
+                      </span> editor | <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.passwordLabel") : "Password:"}
+                      </span> editor123
+                    </p>
+                  </div>
+                  <div className="p-2.5 rounded-md bg-muted/50">
+                    <p className="font-medium text-foreground mb-1">
+                      {mounted ? t("login.credentials.reader.title") : "Reader"}
+                    </p>
+                    <p className="text-muted-foreground text-xs mb-1.5">
+                      {mounted ? t("login.credentials.reader.description") : "Only document viewing, no permission to edit"}
+                    </p>
+                    <p className="font-mono text-xs">
+                      <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.userLabel") : "User:"}
+                      </span> reader | <span className="text-muted-foreground">
+                        {mounted ? t("login.credentials.admin.passwordLabel") : "Password:"}
+                      </span> reader123
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t border-border/30">
+                  <a
+                    href="https://github.com/mmancilha/DocTrack"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Github className="h-4 w-4" />
+                    <span>{mounted ? t("login.credentials.github") : "GitHub"}</span>
+                  </a>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </motion.div>
